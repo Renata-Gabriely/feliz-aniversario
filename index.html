@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz aniversário amor ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #d61919, #df8686, #ff3838);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .heart {
+            font-size: 80px;
+            color: #ff3838;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .message {
+            color: #34495e;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            min-width: 120px;
+        }
+
+        .btn-continue {
+            background: linear-gradient(45deg, #ff6b6b, #ff3838);
+            box-shadow: 0 4px 15px rgba(255, 56, 56, 0.3);
+        }
+
+        .btn-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 56, 56, 0.4);
+        }
+
+        .btn-exit {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+
+        .btn-exit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(149, 165, 166, 0.4);
+        }
+
+        .photo {
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            margin: 20px auto;
+            background: linear-gradient(45deg, #ad0532, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .music-controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+        }
+
+        .music-info {
+            color: #2c3e50;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Estilos para o formulário de verificação */
+        .verification-form {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ff6b6b;
+            border-radius: 25px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff3838;
+            box-shadow: 0 0 10px rgba(255, 56, 56, 0.3);
+            transform: scale(1.02);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .verification-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .screen {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .heart, .verification-icon {
+                font-size: 60px;
+            }
+            
+            .photo {
+                height: 250px;
+                font-size: 50px;
+            }
+            
+            .button {
+                padding: 12px 25px;
+                font-size: 1rem;
+                min-width: 100px;
+            }
+        }
+
+        /* Sparkle effect */
+        .sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .sparkle {
+            position: absolute;
+            color: #ffd700;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="sparkles" id="sparkles"></div>
+    
+    <div class="container">
+        <!-- Tela Inicial -->
+        <div class="screen active" id="welcomeScreen">
+            <div class="heart">💖</div>
+            <h1>Feliz aniversário amor!</h1>
+            <p class="message">Preparei algo especial para você... ❤️<br><strong>Clique em continuar!</strong></p>
+            <button class="button btn-continue" onclick="goToVerification()">Continuar</button>
+            <button class="button btn-exit" onclick="tryToExit()">Sair</button>
+        </div>
+
+        <!-- Tela de Verificação -->
+        <div class="screen" id="verificationScreen">
+            <div class="verification-icon">🔐</div>
+            <h1>Verificação de Acesso</h1>
+            <p class="message">Para continuar, preciso confirmar algumas informações:</p>
+            
+            <div class="verification-form">
+                <div class="form-group">
+                    <label for="userName">Qual é o seu nome?</label>
+                    <input type="text" id="userName" placeholder="Digite seu nome aqui...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="userAge">Quantos anos você está fazendo hoje?</label>
+                    <input type="number" id="userAge" placeholder="Digite sua idade...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="userPassword">Senha especial (dica: nosso símbolo de amor ☀️🌙)</label>
+                    <input type="password" id="userPassword" placeholder="Digite a senha...">
+                </div>
+            </div>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+            
+            <button class="button btn-continue" onclick="verifyAccess()">Verificar</button>
+            <button class="button btn-exit" onclick="goBack()">Voltar</button>
+        </div>
+
+        <!-- Tela 1 -->
+        <div class="screen" id="screen1">
+            <h1>Aqui está você!! 💕</h1>
+            <div class="photo"><img src="img/img1.jpg" height="300px"></div>
+            <p class="message">Um menino lindo, inteligente e de bom coração. Você é incrível amor e eu amo você!.</p>
+            
+            <div class="music-controls">
+                <div class="music-info">🎵</div>
+                <audio controls autoplay loop>
+                    <source src="ytmp3free.cc_rubel-partilhar-audio-oficial-youtubemp3free.org.mp3" type="audio/wav">
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+            
+            <button class="button btn-continue" onclick="goToScreen2()">Próximo</button>
+        </div>
+
+        <!-- Tela 2 -->
+        <div class="screen" id="screen2">
+            <h1>Hoje esse menino faz <span id="displayAge">18</span> anos! 💫</h1>
+            <div class="photo"><img src="img/img2.jpg" height="300px"></div>
+            <p class="message">Parabéns por mais um ano de vida amor! comemorar o seu dia é tão importante para mim, pois é você que faz meus dias serem mais felizes.</p>
+            
+            <div class="music-controls">
+                <div class="music-info">🎵</div>
+               <audio controls autoplay loop>
+                  <source src="ytmp3free.cc_rubel-partilhar-audio-oficial-youtubemp3free.org.mp3" type="audio/mpeg">
+                  Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+            
+            <button class="button btn-continue" onclick="goToScreen3()">Próximo</button>
+        </div>
+
+        <div class="screen" id="screen3">
+            <h1>Eu te amo amor! 💕</h1>
+            <div class="photo"><img src="img/medalha.jpg" height="300px"></div>
+            <p class="message">Mesmo quando você acha que não é o suficiente eu tenho certeza que você é o melhor. Eu me alegro a cada conquista sua e tenho tanto orgulho do Homem que você está se tornando. Parabéns!! Você é um Homem com H maiúsculo.</p>
+            
+            <div class="music-controls">
+                <div class="music-info">🎵</div>
+                <audio controls autoplay loop>
+                  <source src="ytmp3free.cc_rubel-partilhar-audio-oficial-youtubemp3free.org.mp3" type="audio/mpeg">
+                  Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+            
+            <button class="button btn-continue" onclick="goToScreen4()">Próximo</button>
+        </div>
+
+        <div class="screen" id="screen4">
+            <h1>Eu amo estar com você! 💫</h1>
+            <div class="photo"><img src="img/img3.jpg" height="300px"></div>
+            <p class="message">Eu agradeço a Deus todos os dias por ele ter unido os nossos caminhos e nos permitido estar juntos hoje! Eu te amo, amo passar meu tempo contigo.</p>
+            
+            <div class="music-controls">
+                <div class="music-info">🎵</div>
+                <audio controls autoplay loop>
+                  <source src="ytmp3free.cc_rubel-partilhar-audio-oficial-youtubemp3free.org.mp3" type="audio/mpeg">
+                  Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+            
+            <button class="button btn-continue" onclick="goToScreen5()">Próximo</button>
+        </div>
+
+        <div class="screen" id="screen5">
+            <h1>Amo o que construimos juntos!</h1>
+            <div class="photo"><img src="img/img5.jpg" height="150px"></div>
+            <p class="message">Obrigada por me escolher todos os dias. EU TE QUERO PARA SEMPRE!</p>
+            
+            <div class="music-controls">
+                <div class="music-info">🎵</div>
+                <audio controls autoplay loop>
+                  <source src="ytmp3free.cc_rubel-partilhar-audio-oficial-youtubemp3free.org.mp3" type="audio/mpeg">
+                  Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+            
+            <button class="button btn-continue" onclick="goToFinalScreen()">Próximo</button>
+        </div>
+
+        <!-- Tela Final -->
+        <div class="screen" id="finalScreen">
+            <div class="heart">💖</div>
+            <h1>EU TE AMO INFINITAMENTE!!</h1>
+            <div class="photo"><img src="img/img6.jpg" height="300px"></div>
+            <p class="message">Agora você é oficialmente meu Homem com H maiúsculo. Feliz aniversário meu amor!❤️</p>
+            
+            <div class="music-controls">
+                <div class="music-info">🎵 Nossa canção de amor...</div>
+                <audio controls autoplay loop>
+                  <source src="ytmp3free.cc_rubel-partilhar-audio-oficial-youtubemp3free.org.mp3" type="audio/mpeg">
+                  Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+            
+            <button class="button btn-continue" onclick="restart()">Recomeçar</button>
+        </div>
+    </div>
+
+    <script>
+        let currentScreen = 'welcome';
+        let userName = '';
+        let userAge = '';
+
+        // Criar corações flutuantes
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floatingHearts');
+            const hearts = ['💖', '💕', '💝', '💘', '❤️'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }, 800);
+        }
+
+        // Criar efeito sparkle
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            const sparkleSymbols = ['✨', '⭐', '🌟', '💫'];
+            
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                
+                sparklesContainer.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 2000);
+            }, 1500);
+        }
+
+        function hideAllScreens() {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+        }
+
+        function showScreen(screenId) {
+            hideAllScreens();
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function tryToExit() {
+            alert('Ta ficando doido é? clique em continuar logo');
+        }
+
+        function goToVerification() {
+            showScreen('verificationScreen');
+            currentScreen = 'verification';
+            clearMessages();
+        }
+
+        function goBack() {
+            showScreen('welcomeScreen');
+            currentScreen = 'welcome';
+            clearForm();
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage').textContent = '';
+            document.getElementById('successMessage').textContent = '';
+        }
+
+        function clearForm() {
+            document.getElementById('userName').value = '';
+            document.getElementById('userAge').value = '';
+            document.getElementById('userPassword').value = '';
+            clearMessages();
+        }
+
+        function verifyAccess() {
+            const name = document.getElementById('userName').value.trim();
+            const age = document.getElementById('userAge').value.trim();
+            const password = document.getElementById('userPassword').value.trim();
+            
+            clearMessages();
+
+            // Validações
+            if (!name) {
+                showError('Por favor, digite seu nome! 😊');
+                return;
+            }
+
+            if (!age || isNaN(age) || age < 1 || age > 150) {
+                showError('Por favor, digite uma idade válida! 🎂');
+                return;
+            }
+
+            if (!password) {
+                showError('Por favor, digite a senha! 🔒');
+                return;
+            }
+
+            // Verificar senha (aceita variações)
+            const correctPasswords = [
+                'sol e lua',
+                'Sol e lua',
+                'Sol e Lua',
+                'SOL E LUA',
+                'sol e lua',
+                'sole lua',
+                'Sol e lua',
+                'solElua',
+                'SoleLua'
+            ];
+
+            const isPasswordCorrect = correctPasswords.some(correctPass => 
+                password.toLowerCase().replace(/\s/g, '') === correctPass.toLowerCase().replace(/\s/g, '')
+            );
+
+            if (!isPasswordCorrect) {
+                showError('Senha incorreta!');
+                return;
+            }
+
+            // Se chegou até aqui, está tudo certo!
+            userName = name;
+            userAge = age;
+            
+            showSuccess('Acesso liberado! Bem-vindo(a), ' + userName + '! 🎉');
+            
+            setTimeout(() => {
+                updatePersonalizedContent();
+                showScreen('screen1');
+                currentScreen = 'screen1';
+            }, 2000);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.animation = 'none';
+            setTimeout(() => {
+                errorDiv.style.animation = 'bounce 0.5s ease-in-out';
+            }, 10);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.animation = 'none';
+            setTimeout(() => {
+                successDiv.style.animation = 'bounce 0.5s ease-in-out';
+            }, 10);
+        }
+
+        function updatePersonalizedContent() {
+            // Atualizar nome nas telas
+            const nameElements = document.querySelectorAll('#displayName');
+            nameElements.forEach(element => {
+                element.textContent = userName;
+            });
+
+            // Atualizar idade nas telas
+            const ageElements = document.querySelectorAll('#displayAge');
+            ageElements.forEach(element => {
+                element.textContent = userAge;
+            });
+        }
+
+        function goToScreen2() {
+            showScreen('screen2');
+            currentScreen = 'screen2';
+        }
+
+        function goToScreen3() {
+            showScreen('screen3');
+            currentScreen = 'screen3';
+        }
+
+        function goToScreen4() {
+            showScreen('screen4');
+            currentScreen = 'screen4';
+        }
+
+        function goToScreen5() {
+            showScreen('screen5');
+            currentScreen = 'screen5';
+        }
+
+        function goToFinalScreen() {
+            showScreen('finalScreen');
+            currentScreen = 'final';
+        }
+
+        function restart() {
+            showScreen('welcomeScreen');
+            currentScreen = 'welcome';
+            clearForm();
+            userName = '';
+            userAge = '';
+        }
+
+        // Inicializar animações
+        createFloatingHearts();
+        createSparkles();
+
+        // Efeito de clique nos botões
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Criar efeito de ripple
+                const ripple = document.createElement('div');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Adicionar keyframes para o efeito ripple
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                0% { transform: scale(0); opacity: 1; }
+                100% { transform: scale(1); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Adicionar efeito de cursor personalizado em dispositivos desktop
+        if (window.innerWidth > 768) {
+            document.body.style.cursor = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'%3E%3Ctext y=\'20\' font-size=\'20\'%3E💕%3C/text%3E%3C/svg%3E"), auto';
+        }
+
+        // Permitir Enter para submeter o formulário
+        document.getElementById('verificationScreen').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
+    </script>
+</body>
+</html>
